@@ -25,12 +25,6 @@ const TemplateDashboard = () => {
     setFilters({ ...filter, [e.target.name]: e.target.value });
   };
 
-  const searchHandler = (e) => {
-    if (e.key === "Enter") {
-      setFilters({ ...filter, [e.target.name]: e.target.value });
-    }
-  };
-
   const renderCurrentPage = useCallback(() => {
     if (!data) return;
     let fill = [];
@@ -53,7 +47,6 @@ const TemplateDashboard = () => {
           let textB = b.name.toUpperCase();
           return textA < textB ? -1 : textA > textB ? 1 : 0;
         });
-        console.log(fill, "asc");
       } else {
         fill = fill.sort((a, b) => {
           let textA = a.name.toUpperCase();
@@ -78,6 +71,9 @@ const TemplateDashboard = () => {
       }
     }
 
+    if (filter.search !== "") {
+      fill = fill.filter((obj) => obj.name.indexOf(filter.search) !== -1);
+    }
     setRenderData(fill);
   }, [pageNumber, data, filter]);
 
@@ -101,7 +97,7 @@ const TemplateDashboard = () => {
             type="text"
             className="input"
             name="search"
-            onChange={searchHandler}
+            onChange={onChangeHandler}
             placeholder="Search templates"
           />
           <div className="filter--container">
