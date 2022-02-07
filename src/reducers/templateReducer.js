@@ -4,11 +4,13 @@ import {
   LOADING,
   SERVER_ERROR,
   NETWORK_ERROR,
+  SET_PAGE_NUMBER,
 } from "../types/types";
 
 const iniState = {
   data: null,
   loading: false,
+  pageTotal: 0,
   error: {},
   redirectTo: "",
   userTransfer: {},
@@ -31,6 +33,12 @@ export default function (state = iniState, action) {
       return {
         ...state,
         loading: true,
+      };
+
+    case SET_PAGE_NUMBER:
+      return {
+        ...state,
+        pageTotal: action.payload / 60,
       };
 
     default:

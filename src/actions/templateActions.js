@@ -4,6 +4,7 @@ import {
   LOADING,
   SERVER_ERROR,
   NETWORK_ERROR,
+  SET_PAGE_NUMBER,
 } from "../types/types";
 import axios from "axios";
 
@@ -24,6 +25,10 @@ export const getTemplateData = () => {
       dispatch({
         type: GET_TEMPLATE_DATA,
         payload: res.data,
+      });
+      dispatch({
+        type: SET_PAGE_NUMBER,
+        payload: res.data.length,
       });
     } catch (error) {
       if (error.response.status === 500) {

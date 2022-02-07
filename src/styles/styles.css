@@ -12,6 +12,28 @@
   width: 100%;
 }
 
+.tags {
+  margin-top: 10px;
+}
+
+.tag {
+  padding: 4px;
+  border-radius: 2px;
+  /* margin: 2px 2px; */
+}
+
+.Health {
+  color: #08bd37;
+}
+
+.E-commerce {
+  color: tomato;
+}
+
+.Education {
+  color: aqua;
+}
+
 .header--container {
   min-height: 220px;
   display: flex;

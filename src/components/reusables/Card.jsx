@@ -1,16 +1,19 @@
 import React from "react";
 
-const Card = (props) => {
+const Card = ({ category, description, name }) => {
   return (
     <div className="card">
       <div className="card-body">
-        <div className="card-title text-bold">
-          Alumni Membership Form Template
-        </div>
+        <div className="card-title text-bold">{name}</div>
         <div className="card-text">
-          <p>
-            Engage your alumni network better with this alumni registration form
-            template. Embed this in your website ...
+          <p>{description}</p>
+          <p className="tags">
+            Tags:{" "}
+            {category.map((item) => (
+              <span key={item} className={`${item} tag`}>
+                {item}{" "}
+              </span>
+            ))}
           </p>
         </div>
       </div>
