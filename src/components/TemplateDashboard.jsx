@@ -4,11 +4,12 @@ import Card from "./reusables/Card";
 import { Info, Arrow } from "./reusables/Svgs";
 import { getTemplateData } from "../actions/templateActions";
 import { useCallback } from "react";
+import Spinner from "../assets/giphy.gif";
 
 const NUMBERPERPAGE = 60;
 const TemplateDashboard = () => {
   const dispatch = useDispatch();
-  const { data, pageTotal, getTotalTemplates } = useSelector(
+  const { data, pageTotal, getTotalTemplates, loading } = useSelector(
     (state) => state.templates
   );
   const [pageNumber, setPageNumber] = useState(1);
@@ -95,6 +96,7 @@ const TemplateDashboard = () => {
     renderCurrentPage();
   }, [pageNumber, data, filter, renderCurrentPage]);
 
+  console.log(loading, "loading");
   return (
     <div className="main--container">
       <div className="header--container">
@@ -169,16 +171,22 @@ const TemplateDashboard = () => {
             {getTotalTemplates} templates
           </small>
         </div>
-        <div className="grid--container">
-          {renderData.map((item, i) => (
-            <Card
-              key={i + item.created}
-              category={item.category}
-              description={item.description}
-              name={item.name}
-            />
-          ))}
-        </div>
+        {loading ? (
+          <div className="grid--container">
+            {renderData.map((item, i) => (
+              <Card
+                key={i + item.created}
+                category={item.category}
+                description={item.description}
+                name={item.name}
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="spinner">
+            <img src={Spinner} alt="" />
+          </div>
+        )}
       </div>
       <div className="footer--container">
         <div className="footer">
