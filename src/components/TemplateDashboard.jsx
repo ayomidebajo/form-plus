@@ -8,7 +8,9 @@ import { useCallback } from "react";
 const NUMBERPERPAGE = 60;
 const TemplateDashboard = () => {
   const dispatch = useDispatch();
-  const { data, pageTotal } = useSelector((state) => state.templates);
+  const { data, pageTotal, getTotalTemplates } = useSelector(
+    (state) => state.templates
+  );
   const [pageNumber, setPageNumber] = useState(1);
   const [renderData, setRenderData] = useState([]);
   const [filter, setFilters] = useState({
@@ -17,8 +19,12 @@ const TemplateDashboard = () => {
     date: "Default",
     order: "Default",
   });
-  const pageHandler = () => {
+  const pageHandlerNext = () => {
     setPageNumber(pageNumber + 1);
+  };
+
+  const pageHandlerPrev = () => {
+    setPageNumber(pageNumber - 1);
   };
 
   const onChangeHandler = (e) => {
@@ -158,8 +164,10 @@ const TemplateDashboard = () => {
       </div>
       <div className="body--container">
         <div className="template-amount">
-          <p className="text-grey-dark">All Templates</p>
-          <small className="text-grey-light">2000 templates</small>
+          <p className="text-grey-dark">{filter.category} Templates</p>
+          <small className="text-grey-light">
+            {getTotalTemplates} templates
+          </small>
         </div>
         <div className="grid--container">
           {renderData.map((item, i) => (
@@ -174,7 +182,7 @@ const TemplateDashboard = () => {
       </div>
       <div className="footer--container">
         <div className="footer">
-          <div className="previous arrow">
+          <div className="previous arrow" onClick={pageHandlerPrev}>
             <p>Previous</p>
           </div>
           <div className="page-count">
@@ -182,7 +190,7 @@ const TemplateDashboard = () => {
 
             <p>of {Math.ceil(pageTotal)}</p>
           </div>
-          <div className="next arrow" onClick={pageHandler}>
+          <div className="next arrow" onClick={pageHandlerNext}>
             <p>Next</p>
             <span>
               <Arrow />

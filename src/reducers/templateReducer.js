@@ -10,7 +10,8 @@ import {
 const iniState = {
   data: null,
   loading: false,
-  pageTotal: 0,
+  pageTotal: 1,
+  getTotalTemplates: 0,
   error: {},
   redirectTo: "",
   userTransfer: {},
@@ -39,6 +40,7 @@ export default function (state = iniState, action) {
       return {
         ...state,
         pageTotal: action.payload / 60,
+        getTotalTemplates: action.payload,
       };
 
     default:
