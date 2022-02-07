@@ -2,7 +2,7 @@ import React from "react";
 
 const Card = ({ category, description, name }) => {
   return (
-    <div className="card">
+    <div className="card" data-testid="card">
       <div className="card-body">
         <div className="card-title text-bold">{name}</div>
         <div className="card-text">

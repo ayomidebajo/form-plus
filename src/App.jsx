@@ -1,12 +1,8 @@
 import React from "react";
-import Loadable from "react-loadable";
 import "./styles/styles.css";
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import { Loading } from "./components/reusables/Loading";
-const TemplateDashboard = Loadable({
-  loader: () => import("./components/TemplateDashboard"),
-  loading: Loading,
-});
+
+import TemplateDashboard from "./components/TemplateDashboard";
 
 function App() {
   return (

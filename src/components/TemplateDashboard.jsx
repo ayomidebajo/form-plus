@@ -6,7 +6,7 @@ import { getTemplateData } from "../actions/templateActions";
 import { useCallback } from "react";
 import Spinner from "../assets/giphy.gif";
 
-const NUMBERPERPAGE = 60;
+const NUMBERPERPAGE = 10;
 const TemplateDashboard = () => {
   const dispatch = useDispatch();
   const { data, pageTotal, getTotalTemplates, loading } = useSelector(
@@ -20,17 +20,20 @@ const TemplateDashboard = () => {
     date: "Default",
     order: "Default",
   });
-  const pageHandlerNext = () => {
+  const pageHandlerNext = useCallback(() => {
     setPageNumber(pageNumber + 1);
-  };
+  }, [pageNumber]);
 
-  const pageHandlerPrev = () => {
+  const pageHandlerPrev = useCallback(() => {
     setPageNumber(pageNumber - 1);
-  };
+  }, [pageNumber]);
 
-  const onChangeHandler = (e) => {
-    setFilters({ ...filter, [e.target.name]: e.target.value });
-  };
+  const onChangeHandler = useCallback(
+    (e) => {
+      setFilters({ ...filter, [e.target.name]: e.target.value });
+    },
+    [filter]
+  );
 
   const renderCurrentPage = useCallback(() => {
     if (!data) return;
@@ -79,8 +82,12 @@ const TemplateDashboard = () => {
     }
 
     if (filter.search !== "") {
-      fill = fill.filter((obj) => obj.name.indexOf(filter.search) !== -1);
+      fill = fill.filter(
+        (obj) =>
+          obj.name.toLowerCase().indexOf(filter.search.toLowerCase()) !== -1
+      );
     }
+
     setRenderData(fill);
   }, [pageNumber, data, filter]);
 
@@ -96,7 +103,6 @@ const TemplateDashboard = () => {
     renderCurrentPage();
   }, [pageNumber, data, filter, renderCurrentPage]);
 
-  console.log(loading, "loading");
   return (
     <div className="main--container">
       <div className="header--container">
@@ -105,6 +111,7 @@ const TemplateDashboard = () => {
             type="text"
             className="input"
             name="search"
+            data-testid="search-test"
             onChange={onChangeHandler}
             placeholder="Search templates"
           />
@@ -116,18 +123,31 @@ const TemplateDashboard = () => {
                 className="filter-input"
                 value={filter.category}
                 onChange={onChangeHandler}
+                data-testid="select-category"
                 id=""
               >
-                <option value="All">Category</option>
-                <option value="Education">Education</option>
-                <option value="E-commerce">E-commerce</option>
-                <option value="Health">Health</option>
+                <option data-testid="select-category-all" value="All">
+                  Category
+                </option>
+                <option data-testid="select-category-edu" value="Education">
+                  Education
+                </option>
+                <option
+                  data-testid="select-category-e-commerce"
+                  value="E-commerce"
+                >
+                  E-commerce
+                </option>
+                <option data-testid="select-category-health" value="Health">
+                  Health
+                </option>
               </select>
               <select
                 name="date"
                 className="filter-input"
                 value={filter.date}
                 id=""
+                data-testid="select-date"
                 disabled={
                   filter.category !== "Default" && filter.order !== "Default"
                 }
@@ -141,6 +161,7 @@ const TemplateDashboard = () => {
                 name="order"
                 value={filter.order}
                 className="filter-input"
+                data-testid="select-order"
                 id=""
                 disabled={
                   filter.category !== "Default" && filter.date !== "Default"
@@ -154,7 +175,8 @@ const TemplateDashboard = () => {
             </div>
           </div>
         </div>
-        <div className="header-advert">
+
+        <div className="header-test">
           <span>
             <Info />
           </span>

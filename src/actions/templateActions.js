@@ -2,7 +2,6 @@ import {
   GET_TEMPLATE_DATA,
   LOADED,
   LOADING,
-  SERVER_ERROR,
   NETWORK_ERROR,
   SET_PAGE_NUMBER,
 } from "../types/types";
@@ -14,11 +13,10 @@ export const getTemplateData = () => {
       dispatch({
         type: LOADING,
       });
-      const res = await axios(
+      const res = await axios.get(
         `https://front-end-task-dot-result-analytics-dot-fpls-dev.uc.r.appspot.com/api/v1/public/task_templates`
       );
 
-      console.log(res, "results");
       dispatch({
         type: LOADED,
       });
@@ -31,24 +29,11 @@ export const getTemplateData = () => {
         payload: res.data.length,
       });
     } catch (error) {
-      if (error.response.status === 500) {
-        dispatch({
-          type: SERVER_ERROR,
-          payload: "An error occured",
-        });
-      }
-      if (error.response.status === 401) {
+      if (error) {
         dispatch({
           type: NETWORK_ERROR,
-          payload: "Invalid credentials",
+          payload: "An error occured",
         });
-
-        if (error.response.status === 403) {
-          dispatch({
-            type: NETWORK_ERROR,
-            payload: "Forbidden request",
-          });
-        }
       }
     }
   };

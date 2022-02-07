@@ -13,8 +13,6 @@ const iniState = {
   pageTotal: 1,
   getTotalTemplates: 0,
   error: {},
-  redirectTo: "",
-  userTransfer: {},
 };
 
 // eslint-disable-next-line import/no-anonymous-default-export
@@ -39,8 +37,18 @@ export default function (state = iniState, action) {
     case SET_PAGE_NUMBER:
       return {
         ...state,
-        pageTotal: action.payload / 60,
+        pageTotal: action.payload / 10,
         getTotalTemplates: action.payload,
+      };
+    case SERVER_ERROR:
+      return {
+        ...state,
+        error: action.payload,
+      };
+    case NETWORK_ERROR:
+      return {
+        ...state,
+        error: action.payload,
       };
 
     default:

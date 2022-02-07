@@ -8,8 +8,10 @@
 .main--container {
   padding-left: 70px;
   padding-right: 70px;
+  min-height: 100vh;
   height: 100%;
   width: 100%;
+  background-color: white;
 }
 
 .tags {
@@ -69,12 +71,16 @@
   display: block;
 }
 
-.header-advert {
-  background: #fff4ea;
-  padding: 20px;
+.header-test {
   display: flex;
   justify-content: center;
   align-items: center;
+  background: #fff4ea;
+  padding: 20px;
+}
+
+.header-test > span {
+  background: transparent;
 }
 
 .text-grey-light {
@@ -87,6 +93,7 @@
 
 .header-advert--body {
   margin-left: 20px;
+  background: transparent;
 }
 
 .filter-input {
