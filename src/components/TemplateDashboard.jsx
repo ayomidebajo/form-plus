@@ -13,61 +13,73 @@ const TemplateDashboard = () => {
   const [renderData, setRenderData] = useState([]);
   const [filter, setFilters] = useState({
     search: "",
-    category: "all",
-    date: "",
-    order: "",
+    category: "All",
+    date: "Default",
+    order: "Default",
   });
   const pageHandler = () => {
     setPageNumber(pageNumber + 1);
   };
 
   const onChangeHandler = (e) => {
-    setFilters({ ...filter, category: e.target.value });
-  };
-
-  const filterByCategory = () => {
-    let fill = [];
-    if (filter.category !== null || filter.category !== "") {
-      fill = renderData.filter((obj) =>
-        obj.category.some((item) => item.includes(filter.category))
-      );
-    }
-    console.log(fill, "filterd cat");
-    // setRenderData(fill);
-    return fill;
-    // console.log(renderData, count, "render");
-  };
-
-  const filterByAlphabeticalOrder = () => {
-    let fill = [];
-    if (filter.order !== null || filter.order !== "") {
-      fill = renderData.sort((a, b) => {
-        let textA = a.name.toUpperCase();
-        let textB = b.name.toUpperCase();
-        return textA < textB ? -1 : textA > textB ? 1 : 0;
-      });
-
-      // fill.sort();
-    }
-    console.log(fill, "fill");
+    setFilters({ ...filter, [e.target.name]: e.target.value });
   };
 
   const searchHandler = (e) => {
     if (e.key === "Enter") {
       setFilters({ ...filter, [e.target.name]: e.target.value });
-      console.log("enter");
     }
   };
 
   const renderCurrentPage = useCallback(() => {
     if (!data) return;
+    let fill = [];
     const start = (pageNumber - 1) * NUMBERPERPAGE;
     const end = start + NUMBERPERPAGE;
     const dataToRender = data.slice(start, end);
-    console.log(dataToRender);
 
-    setRenderData(dataToRender);
-  }, [pageNumber, data]);
+    if (filter.category !== "All") {
+      fill = dataToRender.filter((obj) =>
+        obj.category.some((item) => item.includes(filter.category))
+      );
+    } else {
+      fill = dataToRender;
+    }
+
+    if (filter.order !== "Default") {
+      if (filter.order === "Ascending") {
+        fill = fill.sort((a, b) => {
+          let textA = a.name.toUpperCase();
+          let textB = b.name.toUpperCase();
+          return textA < textB ? -1 : textA > textB ? 1 : 0;
+        });
+        console.log(fill, "asc");
+      } else {
+        fill = fill.sort((a, b) => {
+          let textA = a.name.toUpperCase();
+          let textB = b.name.toUpperCase();
+          return textB < textA ? -1 : textB > textA ? 1 : 0;
+        });
+      }
+    }
+    if (filter.date !== "Default") {
+      if (filter.date === "Ascending") {
+        fill = fill.sort((a, b) => {
+          let aDate = new Date(a.created);
+          let bDate = new Date(b.created);
+          return aDate.getTime() - bDate.getTime();
+        });
+      } else {
+        fill = fill.sort((a, b) => {
+          let aDate = new Date(a.created);
+          let bDate = new Date(b.created);
+          return bDate.getTime() - aDate.getTime();
+        });
+      }
+    }
+
+    setRenderData(fill);
+  }, [pageNumber, data, filter]);
 
   useEffect(() => {
     const customEffect = async () => {
@@ -78,12 +90,7 @@ const TemplateDashboard = () => {
   }, []);
 
   useEffect(() => {
-    console.log(Math.ceil(pageTotal), pageTotal);
     renderCurrentPage();
-    filterByCategory();
-    filterByAlphabeticalOrder();
-    // filterBy();
-    // console.log(, "filteredObj");
   }, [pageNumber, data, filter, renderCurrentPage]);
 
   return (
@@ -107,7 +114,7 @@ const TemplateDashboard = () => {
                 onChange={onChangeHandler}
                 id=""
               >
-                <option value="all">Category</option>
+                <option value="All">Category</option>
                 <option value="Education">Education</option>
                 <option value="E-commerce">E-commerce</option>
                 <option value="Health">Health</option>
@@ -115,7 +122,11 @@ const TemplateDashboard = () => {
               <select
                 name="date"
                 className="filter-input"
+                value={filter.date}
                 id=""
+                disabled={
+                  filter.category !== "Default" && filter.order !== "Default"
+                }
                 onChange={onChangeHandler}
               >
                 <option value="Default">Date</option>
@@ -124,11 +135,15 @@ const TemplateDashboard = () => {
               </select>
               <select
                 name="order"
+                value={filter.order}
                 className="filter-input"
                 id=""
+                disabled={
+                  filter.category !== "Default" && filter.date !== "Default"
+                }
                 onChange={onChangeHandler}
               >
-                <option value="Default">Date</option>
+                <option value="Default">Order</option>
                 <option value="Ascending">Ascending</option>
                 <option value="Descending">Descending</option>
               </select>
