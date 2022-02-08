@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Card = ({ category, description, name }) => {
   return (
@@ -18,7 +19,9 @@ const Card = ({ category, description, name }) => {
         </div>
       </div>
       <div className="card-footer">
-        <p className="text-green">Use Tenplate</p>
+        <p className="text-green">
+          <Link>Use Tenplate</Link>
+        </p>
       </div>
     </div>
   );
