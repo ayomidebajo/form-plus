@@ -188,7 +188,9 @@ const TemplateDashboard = () => {
       </div>
       <div className="body--container">
         <div className="template-amount">
-          <p className="text-grey-dark">{filter.category} Templates</p>
+          <p className="text-grey-dark text-bold">
+            {filter.category} Templates
+          </p>
           <small className="text-grey-light">
             {getTotalTemplates} templates
           </small>
