@@ -6,7 +6,7 @@ import { getTemplateData } from "../actions/templateActions";
 import { useCallback } from "react";
 import Spinner from "../assets/giphy.gif";
 
-const NUMBERPERPAGE = 10;
+const NUMBERPERPAGE = 12;
 const TemplateDashboard = () => {
   const dispatch = useDispatch();
   const { data, pageTotal, getTotalTemplates, loading } = useSelector(

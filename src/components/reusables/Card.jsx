@@ -20,7 +20,7 @@ const Card = ({ category, description, name }) => {
       </div>
       <div className="card-footer">
         <p className="text-green">
-          <Link>Use Tenplate</Link>
+        Use Template
         </p>
       </div>
     </div>

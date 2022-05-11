@@ -123,6 +123,20 @@ const fakeTemplateData = {
       link: "https://formpl.us/templates",
       name: "pariatur. incididunt",
     },
+        {
+      category: ["Health", "E-commerce", "Education"],
+      created: "2022-02-07T19:18:13.527921",
+      description: "voluptate officia reprehenderit fugiat laborum.",
+      link: "https://formpl.us/templates",
+      name: "exercitation consequat. magna",
+    },
+       {
+      category: ["Education", "Health"],
+      created: "2022-02-07T19:18:13.152089",
+      description: "exercitation dolore labore occaecat fugiat",
+      link: "https://formpl.us/templates",
+      name: "pariatur. consequat.",
+    },
   ],
 };
 test("renders learn react link", async () => {
@@ -200,5 +214,5 @@ it("it paginates", async () => {
 
   let cards = await screen.findAllByTestId("card");
 
-  expect(cards).toHaveLength(5);
+  expect(cards).toHaveLength(7);
 });
